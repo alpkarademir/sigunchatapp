@@ -56,7 +56,7 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       status = AuthStatus.Error;
       user = null;
-      SnackBarService.instance.showSnackBarError("Error Authenticating");
+      SnackBarService.instance.showSnackBarError("Error occured while authenticating!");
     }
     notifyListeners();
   }
@@ -78,7 +78,7 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       status = AuthStatus.Error;
       user = null;
-      SnackBarService.instance.showSnackBarError("Error Registering User");
+      SnackBarService.instance.showSnackBarError("Error occured while registering user");
     }
     notifyListeners();
   }

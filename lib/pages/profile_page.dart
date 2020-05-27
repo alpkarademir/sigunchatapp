@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                 ? Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      height: _height * 0.50,
+                      height: _height * 0.65,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
@@ -51,7 +51,8 @@ class ProfilePage extends StatelessWidget {
                           _userImageWidget(_userData.image),
                           _userNameWidget(_userData.name),
                           _userEmailWidget(_userData.email),
-                          _logoutButton(),
+                          logoutButton(),
+                          _copyrightLogo(),
                         ],
                       ),
                     ),
@@ -67,7 +68,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _userImageWidget(String _image) {
-    double _imageRadius = _height * 0.20;
+    double _imageRadius = _height * 0.30;
     return Container(
       height: _imageRadius,
       width: _imageRadius,
@@ -83,19 +84,19 @@ class ProfilePage extends StatelessWidget {
 
   Widget _userNameWidget(String _userName) {
     return Container(
-      height: _height * 0.05,
+      height: _height * 0.10,
       width: _width,
       child: Text(
         _userName,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white, fontSize: 30),
+        style: TextStyle(color: Colors.white, fontSize: 28),
       ),
     );
   }
 
   Widget _userEmailWidget(String _email) {
     return Container(
-      height: _height * 0.03,
+      height: _height * 0.05,
       width: _width,
       child: Text(
         _email,
@@ -105,10 +106,10 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _logoutButton() {
+  Widget logoutButton() {
     return Container(
       height: _height * 0.06,
-      width: _width * 0.80,
+      width: _width * 0.45,
       child: MaterialButton(
         onPressed: () {
           _auth.logoutUser(() {});
@@ -116,8 +117,20 @@ class ProfilePage extends StatelessWidget {
         color: Colors.red,
         child: Text(
           "LOGOUT",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
+      ),
+    );
+  }
+
+  Widget _copyrightLogo() {
+    return Container(
+      height: _height * 0.04,
+      width: _width,
+      child: Text(
+        "created by Alp Karademir with ♥",
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white24, fontSize: 12),
       ),
     );
   }

@@ -57,7 +57,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         SnackBarService.instance.buildContext = _context;
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
-          height: _deviceHeight * 0.75,
+          height: _deviceHeight * 0.90,
           padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,6 +68,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               _inputForm(),
               _registerButton(),
               _backToLoginPageButton(),
+              _copyrightLogo()
             ],
           ),
         );
@@ -77,18 +78,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _headingWidget() {
     return Container(
-      height: _deviceHeight * 0.12,
+      height: _deviceHeight * 0.10,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Let's get going!",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+            "Let's start quickly!",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
           ),
           Text(
             "Please enter your details.",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w200),
           ),
         ],
       ),
@@ -97,7 +98,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.35,
+      height: _deviceHeight * 0.45,
       child: Form(
         key: _formKey,
         onChanged: () {
@@ -109,6 +110,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _imageSelectorWidget(),
+            _profileText(),
             _nameTextField(),
             _emailTextField(),
             _passwordTextField(),
@@ -129,8 +131,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           });
         },
         child: Container(
-          height: _deviceHeight * 0.10,
-          width: _deviceHeight * 0.10,
+          height: _deviceHeight * 0.16,
+          width: _deviceHeight * 0.16,
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(500),
@@ -138,11 +140,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
               fit: BoxFit.cover,
               image: _image != null
                   ? FileImage(_image)
-                  : NetworkImage(
-                      "https://cdn0.iconfinder.com/data/icons/occupation-002/64/programmer-programming-occupation-avatar-512.png"),
+                  : AssetImage('assets/profile_deer.png'),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _profileText() {
+    return Container(
+      height: _deviceHeight * 0.02,
+      width: _deviceWidth,
+      child: Text(
+        "Please select your profile picture.",
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white24, fontSize: 10),
       ),
     );
   }
@@ -219,8 +232,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _registerButton() {
     return _auth.status != AuthStatus.Authenticating
         ? Container(
-            height: _deviceHeight * 0.06,
+            height: _deviceHeight * 0.062,
             width: _deviceWidth,
+            alignment: Alignment.center,
             child: MaterialButton(
               onPressed: () {
                 if (_formKey.currentState.validate() && _image != null) {
@@ -253,9 +267,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
         NavigationService.instance.goBack();
       },
       child: Container(
-        height: _deviceHeight * 0.06,
+        height: _deviceHeight * 0.05,
         width: _deviceWidth,
-        child: Icon(Icons.arrow_back, size: 40),
+        child: Icon(Icons.arrow_back, size: 30),
+      ),
+    );
+  }
+
+  Widget _copyrightLogo() {
+    return Container(
+      height: _deviceHeight * 0.02,
+      width: _deviceWidth,
+      child: Text(
+        "by Alp Karademir",
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white24, fontSize: 10),
       ),
     );
   }

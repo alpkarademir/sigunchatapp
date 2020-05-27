@@ -15,7 +15,7 @@ class SnackBarService {
   void showSnackBarError(String _message) {
     Scaffold.of(_buildContext).showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         content: Text(
           _message,
           style: TextStyle(color: Colors.white, fontSize: 15),
@@ -28,7 +28,7 @@ class SnackBarService {
   void showSnackBarSuccess(String _message) {
     Scaffold.of(_buildContext).showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         content: Text(
           _message,
           style: TextStyle(color: Colors.white, fontSize: 15),

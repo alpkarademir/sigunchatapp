@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:provider/provider.dart';
 import 'package:sigunchat/pages/home_page.dart';
 
 import 'pages/login_page.dart';
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sigun Chat',
+      title: 'SigunChat',
       navigatorKey: NavigationService.instance.navigatorKey,
       theme: ThemeData(
         brightness: Brightness.dark,

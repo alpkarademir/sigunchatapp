@@ -27,6 +27,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String _searchText;
+  int abc;
 
   AuthProvider _auth;
 
@@ -63,7 +64,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _userSearchField() {
     return Container(
-      height: this.widget._height * 0.08,
+      height: this.widget._height * 0.09,
       width: this.widget._width,
       padding: EdgeInsets.symmetric(vertical: this.widget._height * 0.02),
       child: TextField(
@@ -71,7 +72,13 @@ class _SearchPageState extends State<SearchPage> {
         style: TextStyle(color: Colors.white),
         onSubmitted: (_input) {
           setState(() {
-            _searchText = _input;
+            abc = _input.lastIndexOf(" ");
+            if(abc>0) {
+            _searchText = _input != "" ? _input[0].toUpperCase() + _input.substring(1, abc+1) + _input[abc+1].toUpperCase() + _input.substring(abc+2,) : _input;
+            }
+            else{
+            _searchText = _input != "" ? _input[0].toUpperCase() + _input.substring(1,) : _input;
+            }
           });
         },
         decoration: InputDecoration(
@@ -97,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
         }
         return _snapshot.hasData
             ? Container(
-                height: this.widget._height * 0.75,
+                height: this.widget._height * 0.64,
                 child: ListView.builder(
                   itemCount: _usersData.length,
                   itemBuilder: (BuildContext _context, int _index) {
@@ -106,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
                     var _recepientID = _usersData[_index].id;
                     var _isUserActive = !_userData.lastseen.toDate().isBefore(
                           _currentTime.subtract(
-                            Duration(hours: 1),
+                            Duration(minutes: 5),
                           ),
                         );
                     return ListTile(

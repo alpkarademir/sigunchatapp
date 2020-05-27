@@ -11,6 +11,7 @@ class ConversationSnippet {
   final MessageType type;
   final int unseenCount;
   final Timestamp timestamp;
+  final String showLastMessage;
 
   ConversationSnippet(
       {this.conversationID,
@@ -20,7 +21,8 @@ class ConversationSnippet {
       this.timestamp,
       this.name,
       this.image,
-      this.type});
+      this.type,
+      this.showLastMessage,});
 
   factory ConversationSnippet.fromFirestore(DocumentSnapshot _snapshot) {
     var _data = _snapshot.data;
@@ -38,7 +40,7 @@ class ConversationSnippet {
     return ConversationSnippet(
       id: _snapshot.documentID,
       conversationID: _data["conversationID"],
-      lastMessage: _data["lastMessage"] != null ? _data["lastMessage"] : "",
+      lastMessage: _data["lastMessage"].length >= 15 ? _data["lastMessage"].substring(0,15)+"..." : _data["lastMessage"],
       unseenCount: _data["unseenCount"],
       timestamp: _data["timestamp"] != null ? _data["timestamp"] : null,
       name: _data["name"],
