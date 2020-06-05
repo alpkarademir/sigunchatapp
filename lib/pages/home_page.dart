@@ -31,30 +31,55 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         textTheme: TextTheme(
-          headline6: TextStyle(fontSize: 16),
+          headline6: TextStyle(fontSize: 18),
         ),
-        title: Text("SigunChat"),
+        title: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Image.asset(
+            'assets/deer.png',
+            fit: BoxFit.contain,
+            height: 24,
+            width: 24,
+            color: Colors.white70,
+          ),
+          Container(
+              padding: const EdgeInsets.all(6.0),
+              child: Text('Sigun',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.white70))),
+        ]),
+        actions: <Widget>[
+          Padding(
+              padding: const EdgeInsets.symmetric(),
+              child: InkWell(
+                child: Icon(Icons.more_vert, color: Colors.white60),
+                onTap: () {},
+              ))
+        ],
         bottom: TabBar(
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.blue,
-            labelColor: Colors.blue,
+            indicatorColor: Colors.tealAccent,
+            labelColor: Colors.tealAccent,
+            labelStyle: TextStyle(fontSize: 10),
             controller: _tabBarController,
             tabs: [
               Tab(
                   icon: Icon(
-                Icons.people_outline,
-                size: 25,
-              )),
+                    Icons.people_outline,
+                    size: 25,
+                  ),
+                  text: "Contacts"),
               Tab(
                   icon: Icon(
-                Icons.chat_bubble_outline,
-                size: 25,
-              )),
+                    Icons.chat_bubble_outline,
+                    size: 25,
+                  ),
+                  text: "Chats"),
               Tab(
                   icon: Icon(
-                Icons.person_outline,
-                size: 25,
-              )),
+                    Icons.person_outline,
+                    size: 25,
+                  ),
+                  text: "Profile"),
             ]),
       ),
       body: _tabBarPages(),

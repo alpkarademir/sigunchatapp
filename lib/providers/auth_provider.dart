@@ -40,6 +40,9 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       await _autoLogin();
     }
+    else{
+      return NavigationService.instance.navigateToReplacement("login");
+    }
   }
 
   void loginUserWithEmailAndPassword(String _email, String _password) async {
@@ -50,13 +53,13 @@ class AuthProvider extends ChangeNotifier {
           email: _email, password: _password);
       user = _result.user;
       status = AuthStatus.Authenticated;
-      SnackBarService.instance.showSnackBarSuccess("Welcome, ${user.email}");
+      SnackBarService.instance.showSnackBarSuccess("Welcome back, ${user.email} to SigunChat");
       await DBService.instance.updateUserLastSeenTime(user.uid);
       NavigationService.instance.navigateToReplacement("home");
     } catch (e) {
       status = AuthStatus.Error;
       user = null;
-      SnackBarService.instance.showSnackBarError("Error Authenticating");
+      SnackBarService.instance.showSnackBarError("Error occured while authenticating!");
     }
     notifyListeners();
   }
@@ -71,14 +74,14 @@ class AuthProvider extends ChangeNotifier {
       user = _result.user;
       status = AuthStatus.Authenticated;
       await onSuccess(user.uid);
-      SnackBarService.instance.showSnackBarSuccess("Welcome, ${user.email}");
+      SnackBarService.instance.showSnackBarSuccess("Welcome, ${user.email} to SigunChat");
       await DBService.instance.updateUserLastSeenTime(user.uid);
       NavigationService.instance.goBack();
       NavigationService.instance.navigateToReplacement("home");
     } catch (e) {
       status = AuthStatus.Error;
       user = null;
-      SnackBarService.instance.showSnackBarError("Error Registering User");
+      SnackBarService.instance.showSnackBarError("Error occured while registering user");
     }
     notifyListeners();
   }

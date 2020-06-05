@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
         SnackBarService.instance.buildContext = _context;
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
-          height: _deviceHeight * 0.60,
+          height: _deviceHeight * 0.70,
           padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.10),
           alignment: Alignment.center,
           child: Column(
@@ -72,19 +72,19 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _headingWidget() {
     return Container(
-      height: _deviceHeight * 0.12,
+      height: _deviceHeight * 0.20,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Welcome back!",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+            "Welcome back to SigunChat! 🦌",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
           ),
           Text(
             "Please login to your account.",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
           ),
         ],
       ),
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.16,
+      height: _deviceHeight * 0.18,
       child: Form(
         key: _formKey,
         onChanged: () {
@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.blue,
               child: Text(
                 "LOGIN",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
               ),
             ),
           );

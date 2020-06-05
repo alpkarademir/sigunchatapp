@@ -6,6 +6,7 @@ class MediaService {
   static MediaService instance = MediaService();
 
   Future<File> getImageFromLibrary() {
+    //return ImagePicker.pickImage(source: ImageSource.gallery);
     return ImagePicker.pickImage(source: ImageSource.gallery);
   }
 }

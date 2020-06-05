@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sigunchat/services/navigation_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:provider/provider.dart';
 
@@ -39,12 +40,14 @@ class _ConversationPageState extends State<ConversationPage> {
   ScrollController _listViewController;
   AuthProvider _auth;
 
+  final TextEditingController _editingController = TextEditingController();
+
   String _messageText;
 
   _ConversationPageState() {
     _formKey = GlobalKey<FormState>();
     _listViewController = ScrollController();
-    _messageText = "";
+    _editingController.text = "";
   }
 
   @override
@@ -54,8 +57,37 @@ class _ConversationPageState extends State<ConversationPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        titleSpacing: -5,
         backgroundColor: Color.fromRGBO(31, 31, 31, 1.0),
-        title: Text(this.widget._receiverName),
+        title: Row(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundImage: NetworkImage(this.widget._receiverImage),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(this.widget._receiverName),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(),
+            child: InkWell(
+            child: Image.asset('assets/deer.png',
+            fit: BoxFit.contain,
+            height: 24,
+            width: 24,
+            color: Colors.white60,
+            ),
+            onTap: (){
+              Navigator.pop(context);
+            },
+            ),
+              ),
+        ],
+        
+        
       ),
       body: ChangeNotifierProvider<AuthProvider>.value(
         value: AuthProvider.instance,
@@ -84,7 +116,7 @@ class _ConversationPageState extends State<ConversationPage> {
 
   Widget _messageListView() {
     return Container(
-      height: _deviceHeight * 0.75,
+      height: _deviceHeight * 0.78,
       width: _deviceWidth,
       child: StreamBuilder<Conversation>(
         stream: DBService.instance.getConversation(this.widget._conversationID),
@@ -148,7 +180,7 @@ class _ConversationPageState extends State<ConversationPage> {
   }
 
   Widget _userImageWidget() {
-    double _imageRadius = _deviceHeight * 0.05;
+    double _imageRadius = _deviceHeight * 0.045;
     return Container(
       height: _imageRadius,
       width: _imageRadius,
@@ -168,11 +200,11 @@ class _ConversationPageState extends State<ConversationPage> {
         ? [Colors.blue, Color.fromRGBO(42, 117, 188, 1)]
         : [Color.fromRGBO(69, 69, 69, 1), Color.fromRGBO(43, 43, 43, 1)];
     return Container(
-      height: _deviceHeight * 0.08 + (_message.length / 20 * 5.0),
-      width: _deviceWidth * 0.75,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      height: _deviceHeight * 0.07 + (_message.length / 20 * 4.0),
+      width: _deviceWidth * 0.70,
+      padding: EdgeInsets.symmetric(horizontal: 11),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(12),
         gradient: LinearGradient(
           colors: _colorScheme,
           stops: [0.30, 0.70],
@@ -203,7 +235,7 @@ class _ConversationPageState extends State<ConversationPage> {
     DecorationImage _image =
         DecorationImage(image: NetworkImage(_imageURL), fit: BoxFit.cover);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(
@@ -219,10 +251,10 @@ class _ConversationPageState extends State<ConversationPage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
-            height: _deviceHeight * 0.30,
-            width: _deviceWidth * 0.40,
+            height: _deviceHeight * 0.45,
+            width: _deviceWidth * 0.55,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(10),
               image: _image,
             ),
           ),
@@ -243,7 +275,7 @@ class _ConversationPageState extends State<ConversationPage> {
         borderRadius: BorderRadius.circular(100),
       ),
       margin: EdgeInsets.symmetric(
-          horizontal: _deviceWidth * 0.04, vertical: _deviceHeight * 0.03),
+          horizontal: _deviceWidth * 0.025, vertical: _deviceHeight * 0.02),
       child: Form(
         key: _formKey,
         child: Row(
@@ -251,6 +283,7 @@ class _ConversationPageState extends State<ConversationPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
+            _emojiButton(),
             _messageTextField(),
             _sendMessageButton(_context),
             _imageMessageButton(),
@@ -262,8 +295,9 @@ class _ConversationPageState extends State<ConversationPage> {
 
   Widget _messageTextField() {
     return SizedBox(
-      width: _deviceWidth * 0.55,
+      width: _deviceWidth * 0.61,
       child: TextFormField(
+        controller: _editingController,
         validator: (_input) {
           if (_input.length == 0) {
             return "Please enter a message";
@@ -275,7 +309,7 @@ class _ConversationPageState extends State<ConversationPage> {
         },
         onSaved: (_input) {
           setState(() {
-            _messageText = _input;
+            _input = _editingController.text;
           });
         },
         cursorColor: Colors.white,
@@ -286,10 +320,24 @@ class _ConversationPageState extends State<ConversationPage> {
     );
   }
 
+  Widget _emojiButton() {
+    return Container(
+      height: _deviceHeight * 0.04,
+      width: _deviceHeight * 0.04,
+      child: InkWell(
+        child: Icon(
+        Icons.tag_faces,
+        color: Colors.grey,
+        ),
+        onTap: (){},
+            ),
+    );
+          }
+
   Widget _sendMessageButton(BuildContext _context) {
     return Container(
-      height: _deviceHeight * 0.05,
-      width: _deviceHeight * 0.05,
+      height: _deviceHeight * 0.06,
+      width: _deviceHeight * 0.06,
       child: IconButton(
           icon: Icon(
             Icons.send,
@@ -300,12 +348,13 @@ class _ConversationPageState extends State<ConversationPage> {
               DBService.instance.sendMessage(
                 this.widget._conversationID,
                 Message(
-                    content: _messageText,
+                    content: _editingController.text,
                     timestamp: Timestamp.now(),
                     senderID: _auth.user.uid,
                     type: MessageType.Text),
               );
               _formKey.currentState.reset();
+              _editingController.text = '';
               FocusScope.of(_context).unfocus();
             }
           }),
@@ -333,7 +382,7 @@ class _ConversationPageState extends State<ConversationPage> {
             );
           }
         },
-        child: Icon(Icons.camera_enhance),
+        child: Icon(Icons.camera_alt),
       ),
     );
   }
